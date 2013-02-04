@@ -12,15 +12,14 @@ import java.util.Set;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
+import org.hibernate.EntityMode;
 import org.hibernate.Filter;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
-import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Interceptor;
 import org.hibernate.LobHelper;
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
-import org.hibernate.NaturalIdLoadAccess;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
 import org.hibernate.SQLQuery;
@@ -28,27 +27,24 @@ import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.SharedSessionBuilder;
-import org.hibernate.SimpleNaturalIdLoadAccess;
 import org.hibernate.Transaction;
 import org.hibernate.TypeHelper;
-import org.hibernate.cache.spi.CacheKey;
-import org.hibernate.collection.spi.PersistentCollection;
-import org.hibernate.engine.jdbc.spi.JdbcConnectionAccess;
-import org.hibernate.engine.query.spi.sql.NativeSQLQuerySpecification;
-import org.hibernate.engine.spi.ActionQueue;
-import org.hibernate.engine.spi.EntityEntry;
-import org.hibernate.engine.spi.EntityKey;
-import org.hibernate.engine.spi.LoadQueryInfluencers;
-import org.hibernate.engine.spi.NonFlushedChanges;
-import org.hibernate.engine.spi.PersistenceContext;
-import org.hibernate.engine.spi.QueryParameters;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.engine.transaction.spi.TransactionCoordinator;
-import org.hibernate.event.spi.EventSource;
-import org.hibernate.internal.CriteriaImpl;
-import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.collection.PersistentCollection;
+import org.hibernate.engine.ActionQueue;
+import org.hibernate.engine.EntityEntry;
+import org.hibernate.engine.EntityKey;
+import org.hibernate.engine.LoadQueryInfluencers;
+import org.hibernate.engine.NonFlushedChanges;
+import org.hibernate.engine.PersistenceContext;
+import org.hibernate.engine.QueryParameters;
+import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.SessionImplementor;
+import org.hibernate.engine.query.sql.NativeSQLQuerySpecification;
+import org.hibernate.event.EventListeners;
+import org.hibernate.event.EventSource;
+import org.hibernate.impl.CriteriaImpl;
+import org.hibernate.jdbc.Batcher;
+import org.hibernate.jdbc.JDBCContext;
 import org.hibernate.jdbc.Work;
 import org.hibernate.loader.custom.CustomQuery;
 import org.hibernate.persister.entity.EntityPersister;
@@ -705,30 +701,30 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       ((EventSource) delegate).delete(paramString, paramObject, paramBoolean, paramSet);
    }
 
-   public String getTenantIdentifier()
-   {
-     return delegate.getTenantIdentifier();
-   }
-
-   public JdbcConnectionAccess getJdbcConnectionAccess()
-   {
-      return ((SessionImplementor) delegate).getJdbcConnectionAccess();
-   }
-
-   public EntityKey generateEntityKey(Serializable id, EntityPersister persister)
-   {
-      return ((SessionImplementor) delegate).generateEntityKey(id, persister);
-   }
-
-   public CacheKey generateCacheKey(Serializable id, Type type, String entityOrRoleName)
-   {
-      return ((SessionImplementor) delegate).generateCacheKey(id, type, entityOrRoleName);
-   }
-
-   public void disableTransactionAutoJoin()
-   {
-      ((SessionImplementor) delegate).disableTransactionAutoJoin();
-   }
+//   public String getTenantIdentifier()
+//   {
+//     return delegate.getTenantIdentifier();
+//   }
+//
+//   public JdbcConnectionAccess getJdbcConnectionAccess()
+//   {
+//      return ((SessionImplementor) delegate).getJdbcConnectionAccess();
+//   }
+//
+//   public EntityKey generateEntityKey(Serializable id, EntityPersister persister)
+//   {
+//      return ((SessionImplementor) delegate).generateEntityKey(id, persister);
+//   }
+//
+//   public CacheKey generateCacheKey(Serializable id, Type type, String entityOrRoleName)
+//   {
+//      return ((SessionImplementor) delegate).generateCacheKey(id, type, entityOrRoleName);
+//   }
+//
+//   public void disableTransactionAutoJoin()
+//   {
+//      ((SessionImplementor) delegate).disableTransactionAutoJoin();
+//   }
 
    public NonFlushedChanges getNonFlushedChanges() throws HibernateException
    {
@@ -740,25 +736,25 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       ((SessionImplementor) delegate).applyNonFlushedChanges(nonFlushedChanges);
    }
 
-   public TransactionCoordinator getTransactionCoordinator()
-   {
-      return ((SessionImplementor) delegate).getTransactionCoordinator();
-   }
+//   public TransactionCoordinator getTransactionCoordinator()
+//   {
+//      return ((SessionImplementor) delegate).getTransactionCoordinator();
+//   }
 
    public LoadQueryInfluencers getLoadQueryInfluencers()
    {
       return ((SessionImplementor) delegate).getLoadQueryInfluencers();
    }
 
-   public <T> T execute(Callback<T> callback)
-   {
-      return ((SessionImplementor) delegate).execute(callback);
-   }
+//   public <T> T execute(Callback<T> callback)
+//   {
+//      return ((SessionImplementor) delegate).execute(callback);
+//   }
 
-   public SharedSessionBuilder sessionWithOptions()
-   {
-      return ((EventSource) delegate).sessionWithOptions();
-   }
+//   public SharedSessionBuilder sessionWithOptions()
+//   {
+//      return ((EventSource) delegate).sessionWithOptions();
+//   }
 
    public Object load(Class theClass, Serializable id, LockOptions lockOptions) throws HibernateException
    {
@@ -775,20 +771,20 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return ((EventSource) delegate).buildLockRequest(lockOptions);
    }
 
-   public void refresh(String entityName, Object object) throws HibernateException
-   {
-      ((EventSource) delegate).refresh(entityName, object);      
-   }
+//   public void refresh(String entityName, Object object) throws HibernateException
+//   {
+//      ((EventSource) delegate).refresh(entityName, object);      
+//   }
 
    public void refresh(Object object, LockOptions lockOptions) throws HibernateException
    {
       ((EventSource) delegate).refresh(object, lockOptions);      
    }
 
-   public void refresh(String entityName, Object object, LockOptions lockOptions) throws HibernateException
-   {
-      ((EventSource) delegate).refresh(entityName, object, lockOptions);      
-   }
+//   public void refresh(String entityName, Object object, LockOptions lockOptions) throws HibernateException
+//   {
+//      ((EventSource) delegate).refresh(entityName, object, lockOptions);      
+//   }
 
    public Object get(Class clazz, Serializable id, LockOptions lockOptions) throws HibernateException
    {
@@ -800,10 +796,10 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return ((EventSource) delegate).get(entityName, id, lockOptions);
    }
 
-   public <T> T doReturningWork(ReturningWork<T> work) throws HibernateException
-   {
-      return ((EventSource) delegate).doReturningWork(work);
-   }
+//   public <T> T doReturningWork(ReturningWork<T> work) throws HibernateException
+//   {
+//      return ((EventSource) delegate).doReturningWork(work);
+//   }
 
    public TypeHelper getTypeHelper()
    {
@@ -815,34 +811,88 @@ public class HibernateSessionInvocationHandler implements InvocationHandler, Ser
       return ((EventSource) delegate).getLobHelper();
    }
 
-   public IdentifierLoadAccess byId(String entityName)
-   {
-      return delegate.byId(entityName);
-   }
+	@Override
+	public Batcher getBatcher() 
+	{
+		return ((SessionImplementor) delegate).getBatcher();
+	}
 
-   public IdentifierLoadAccess byId(Class entityClass)
-   {
-      return delegate.byId(entityClass);
-   }
+	@Override
+	public void afterTransactionCompletion(boolean paramBoolean, Transaction paramTransaction) 
+	{
+		((SessionImplementor) delegate).afterTransactionCompletion(paramBoolean, paramTransaction);
+	}
 
-   public NaturalIdLoadAccess byNaturalId(String entityName)
-   {
-      return delegate.byNaturalId(entityName);
-   }
+	@Override
+	public void beforeTransactionCompletion(Transaction paramTransaction) 
+	{
+		((SessionImplementor) delegate).beforeTransactionCompletion(paramTransaction);
+	}
 
-   public NaturalIdLoadAccess byNaturalId(Class entityClass)
-   {
-      return delegate.byNaturalId(entityClass);
-   }
+	@Override
+	public EventListeners getListeners() 
+	{
+		 return ((SessionImplementor) delegate).getListeners();
+	}
 
-   public SimpleNaturalIdLoadAccess bySimpleNaturalId(String entityName)
-   {
-      return delegate.bySimpleNaturalId(entityName);
-   }
+	@Override
+	public EntityMode getEntityMode() 
+	{
+		return ((SessionImplementor) delegate).getEntityMode();
+	}
 
-   public SimpleNaturalIdLoadAccess bySimpleNaturalId(Class entityClass)
-   {
-      return delegate.bySimpleNaturalId(entityClass);
-   }
+	@Override
+	public JDBCContext getJDBCContext() 
+	{
+		return ((SessionImplementor) delegate).getJDBCContext();
+	}
+
+	@Override
+	public Session getSession(EntityMode paramEntityMode) 
+	{
+		return delegate.getSession(paramEntityMode);
+	}
+
+	@Override
+	public void reconnect() throws HibernateException 
+	{
+		delegate.reconnect();
+	}
+	
+	@Override
+	public void saveOrUpdateCopy(String paramString, Object paramObject, Map paramMap) throws HibernateException 
+	{
+		((EventSource) delegate).saveOrUpdateCopy(paramString, paramObject, paramMap);
+	}
+
+//   public IdentifierLoadAccess byId(String entityName)
+//   {
+//      return delegate.byId(entityName);
+//   }
+//
+//   public IdentifierLoadAccess byId(Class entityClass)
+//   {
+//      return delegate.byId(entityClass);
+//   }
+//
+//   public NaturalIdLoadAccess byNaturalId(String entityName)
+//   {
+//      return delegate.byNaturalId(entityName);
+//   }
+//
+//   public NaturalIdLoadAccess byNaturalId(Class entityClass)
+//   {
+//      return delegate.byNaturalId(entityClass);
+//   }
+//
+//   public SimpleNaturalIdLoadAccess bySimpleNaturalId(String entityName)
+//   {
+//      return delegate.bySimpleNaturalId(entityName);
+//   }
+//
+//   public SimpleNaturalIdLoadAccess bySimpleNaturalId(Class entityClass)
+//   {
+//      return delegate.bySimpleNaturalId(entityClass);
+//   }
 
 }

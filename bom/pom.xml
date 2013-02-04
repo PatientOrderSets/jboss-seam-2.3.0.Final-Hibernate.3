@@ -4,7 +4,7 @@
 	<groupId>org.jboss.seam</groupId>
 	<artifactId>bom</artifactId>
 	<name>Seam 2 Bill Of Materials </name>
-	<version>2.3.0.Final</version>
+	<version>2.3.0.Final.POS-Hibernate3</version>
 	<packaging>pom</packaging>
 
 	<licenses>

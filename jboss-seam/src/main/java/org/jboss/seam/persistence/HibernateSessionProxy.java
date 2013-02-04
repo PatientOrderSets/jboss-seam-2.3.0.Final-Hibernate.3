@@ -1,8 +1,8 @@
 package org.jboss.seam.persistence;
 
 import org.hibernate.Session;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.event.spi.EventSource;
+import org.hibernate.engine.SessionImplementor;
+import org.hibernate.event.EventSource;
 
 /**
  * Marker interface that signifies a proxy is using the

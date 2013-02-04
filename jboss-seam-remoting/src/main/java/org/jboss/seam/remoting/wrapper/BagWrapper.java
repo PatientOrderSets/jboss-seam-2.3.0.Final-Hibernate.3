@@ -14,7 +14,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.dom4j.Element;
-import org.hibernate.collection.spi.PersistentCollection;
+import org.hibernate.collection.PersistentCollection;
 
 /**
  * Wrapper for collections, arrays, etc.

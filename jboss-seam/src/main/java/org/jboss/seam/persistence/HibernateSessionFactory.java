@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.common.util.ReflectHelper;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.cfg.NamingStrategy;
-import org.hibernate.internal.util.ReflectHelper;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;

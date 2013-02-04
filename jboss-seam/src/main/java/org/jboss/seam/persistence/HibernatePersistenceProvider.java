@@ -355,8 +355,8 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    public static Object getVersion(Object value, Session session)
    {
       ClassMetadata classMetadata = getClassMetadata(value, session);
-      return classMetadata!=null && classMetadata.isVersioned() ? 
-               classMetadata.getVersion(value) : null;
+      return classMetadata!=null && classMetadata.isVersioned() ?
+               classMetadata.getVersion(value, session.getEntityMode()) : null;
    }
    
    private static ClassMetadata getClassMetadata(Object value, Session session)
