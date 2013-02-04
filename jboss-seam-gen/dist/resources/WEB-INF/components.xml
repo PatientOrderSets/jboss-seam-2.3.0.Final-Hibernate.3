@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.org/schema/seam/components"
+            xmlns:core="http://jboss.org/schema/seam/core"
+            xmlns:persistence="http://jboss.org/schema/seam/persistence"
+            xmlns:drools="http://jboss.org/schema/seam/drools"
+            xmlns:bpm="http://jboss.org/schema/seam/bpm"
+            xmlns:security="http://jboss.org/schema/seam/security"
+            xmlns:mail="http://jboss.org/schema/seam/mail"
+            xmlns:web="http://jboss.org/schema/seam/web"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.org/schema/seam/core http://jboss.org/schema/seam/core-2.3.xsd
+                 http://jboss.org/schema/seam/persistence http://jboss.org/schema/seam/persistence-2.3.xsd
+                 http://jboss.org/schema/seam/drools http://jboss.org/schema/seam/drools-2.3.xsd
+                 http://jboss.org/schema/seam/bpm http://jboss.org/schema/seam/bpm-2.3.xsd
+                 http://jboss.org/schema/seam/security http://jboss.org/schema/seam/security-2.3.xsd
+                 http://jboss.org/schema/seam/mail http://jboss.org/schema/seam/mail-2.3.xsd
+                 http://jboss.org/schema/seam/web http://jboss.org/schema/seam/web-2.3.xsd
+                 http://jboss.org/schema/seam/components http://jboss.org/schema/seam/components-2.3.xsd">
+
+   <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
+
+   <core:manager concurrent-request-timeout="500"
+                 conversation-timeout="120000"
+                 conversation-id-parameter="cid"
+                 parent-conversation-id-parameter="pid"/>
+
+   <!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
+   <web:hot-deploy-filter url-pattern="*.seam"/>
+
+   <persistence:managed-persistence-context name="entityManager" auto-create="true"
+                      persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
+
+   <drools:rule-base name="securityRules">
+      <drools:rule-files>
+         <value>/security.drl</value>
+      </drools:rule-files>
+   </drools:rule-base>
+
+   <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+
+   <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>
+
+   <event type="org.jboss.seam.security.notLoggedIn">
+      <action execute="#{redirect.captureCurrentView}"/>
+   </event>
+   <event type="org.jboss.seam.security.loginSuccessful">
+      <action execute="#{redirect.returnToCapturedView}"/>
+   </event>
+
+   <mail:mail-session host="localhost" port="25"/>
+
+   <!-- For use with jBPM pageflow or process management -->
+   <!--
+   <bpm:jbpm>
+      <bpm:process-definitions></bpm:process-definitions>
+      <bpm:pageflow-definitions></bpm:pageflow-definitions>
+   </bpm:jbpm>
+   -->
+
+</components>

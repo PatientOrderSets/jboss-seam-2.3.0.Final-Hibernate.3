@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource 
+        jndi-name="@projectName@Datasource"
+        enabled="true" 
+        use-java-context="true" pool-name="@projectName@Datasource_pool">
+        <connection-url>@jdbcUrl@</connection-url>
+        <driver>@driverJar@</driver>
+        <security>
+		      <user-name>@username@</user-name>
+		      <password>@password@</password>
+        </security>
+    </datasource>
+</datasources>

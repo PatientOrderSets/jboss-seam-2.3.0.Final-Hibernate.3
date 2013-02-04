@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+
+<chapter id="gettingstartedwithjbosstools">
+   <title>Getting started with Seam, using JBoss Tools</title>
+
+   <para>
+      JBoss Tools is a collection of Eclipse plugins. JBoss Tools a project
+      creation wizard for Seam, Content Assist for the Unified Expression
+      Language (EL) in both facelets and Java code, 
+      a graphical editor for Seam configuration files, support for running Seam
+      integration tests from within Eclipse, and much more.
+   </para>
+
+   <para>
+      In short, if you are an Eclipse user, then you'll want JBoss Tools!
+   </para>
+   
+   <para>Please read the latest JBoss Tools documentation at 
+   <ulink url="http://docs.jboss.org/tools/latest/en/seam_tools_ref_guide/html/index.html">http://docs.jboss.org/tools/latest/en/seam_tools_ref_guide/html/index.html</ulink>.
+   </para>
+
+   <para>
+      JBoss Tools, as with seam-gen, works best with JBoss AS, but it's possible
+      with a few tweaks to get your app running on other application servers.
+      The changes are much like those described for seam-gen later in this
+      reference manual.
+   </para>
+
+   <section>
+      <title>Before you start</title>
+
+      <para>
+         Make sure you have JDK 6, JBoss AS 7.1.1.Final, Eclipse 3.7, the JBoss
+         Tools plugins (at least Seam Tools, the Visual Page Editor
+         and JBoss AS Tools) and the JUnit plugin for Eclipse correctly
+         installed before starting.
+      </para>
+
+      <para>
+         Please see the official <ulink
+         url="http://docs.jboss.org/tools/latest/en/GettingStartedGuide/html_single/index.html">JBoss Tools
+         Getting started</ulink> page for the quickest way to get JBoss Tools setup
+         in Eclipse.
+      </para>
+
+   </section>
+</chapter>

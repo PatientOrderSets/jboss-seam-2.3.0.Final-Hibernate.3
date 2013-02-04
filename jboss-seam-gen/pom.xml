@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>jboss-seam-gen</artifactId>
+   <name>Seam Generator</name>
+   <packaging>jar</packaging>
+   <parent>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>jboss-seam-parent</artifactId>
+      <version>2.3.0.Final</version>
+      <relativePath>../pom.xml</relativePath>
+   </parent>
+
+   <build>
+   	<plugins>
+   		<plugin>
+   			<groupId>org.apache.maven.plugins</groupId>
+   			<artifactId>maven-assembly-plugin</artifactId>
+   			<executions>
+   				<execution>
+   					<id>distribution</id>
+   					<phase>package</phase>
+   					<goals>
+   						<goal>single</goal>
+   					</goals>
+                 <configuration>
+                    <descriptors>
+                       <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                 </configuration>
+   				</execution>
+   			</executions>
+   		</plugin>
+   		
+   	</plugins>
+   </build>
+   <dependencies>
+
+      <!-- version runtime dependencies are managed only here instead in parent -->
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-tools</artifactId>
+         <version>4.0.0-CR1</version>
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>freemarker</groupId>
+         <artifactId>freemarker</artifactId>
+         <version>2.3.8</version>
+         <scope>runtime</scope>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.core</groupId>
+         <artifactId>runtime</artifactId>
+         <scope>runtime</scope>
+         <version>3.2.0-v20060603</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse</groupId>
+               <artifactId>osgi</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>jobs</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>registry</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>preferences</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>contenttype</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.equinox</groupId>
+         <artifactId>common</artifactId>
+         <version>3.2.0-v20060603</version>
+         <scope>runtime</scope>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse</groupId>
+         <artifactId>text</artifactId>
+         <scope>runtime</scope>
+         <version>3.2.0-v20060605-1400</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>commands</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+
+     <dependency>
+        <groupId>org.eclipse.jdt</groupId>
+        <artifactId>core</artifactId>
+        <version>3.2.0.658</version>
+      </dependency>
+
+      <dependency>
+      	<groupId>org.apache.ant</groupId>
+      	<artifactId>ant</artifactId>
+      	<type>jar</type>
+      	<scope>compile</scope>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant-launcher</artifactId>
+        <version>1.7.0</version>
+        <type>jar</type>
+        <scope>runtime</scope>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant-nodeps</artifactId>
+        <version>1.7.0</version>
+        <type>jar</type>
+        <scope>runtime</scope>
+      </dependency>
+   </dependencies>
+   <modules>
+   </modules>
+
+    <profiles>
+        <profile>
+            <id>code-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>emma-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-antrun-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+</project>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.org/schema/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<title>Todo List</title>
+</head>
+<body>
+<h1>Todo List</h1>
+<f:view>
+   <h:form id="list">
+      <div>
+         <h:outputText id="noItems" value="There are no todo items." rendered="#{empty taskInstancePriorityList}"/>
+         <h:dataTable id="items" value="#{taskInstancePriorityList}" var="task" rendered="#{not empty taskInstancePriorityList}">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description"/>
+                </f:facet>
+                <h:inputText id="description" value="#{task.description}" style="width: 400"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Created"/>
+                </f:facet>
+                <h:outputText value="#{task.taskMgmtInstance.processInstance.start}">
+                    <f:convertDateTime type="date"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Priority"/>
+                </f:facet>
+                <h:inputText id="priority" value="#{task.priority}" style="width: 30"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Due Date"/>
+                </f:facet>
+                <h:inputText id="dueDate" value="#{task.dueDate}" style="width: 100">
+                    <f:convertDateTime type="date" dateStyle="short"/>
+                </h:inputText>
+            </h:column>
+            <h:column>
+                <s:button id="done" action="#{todoList.done}" taskInstance="#{task}" value="Done"/>
+            </h:column>
+         </h:dataTable>
+      </div>
+      <div>
+      <h:messages/>
+      </div>
+      <div>
+         <h:commandButton id="update" value="Update Items" rendered="#{not empty taskInstanceList}"/>
+      </div>
+   </h:form>
+   <h:form id="new">
+      <div>
+         <h:inputText id="description" value="#{todoList.description}" style="width: 400"/>
+         <h:commandButton id="create" value="Create New Item" action="#{todoList.createTodo}"/>
+      </div>
+   </h:form>
+</f:view>
+</body>
+</html>

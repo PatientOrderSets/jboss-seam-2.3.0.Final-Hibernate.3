@@ -1,0 +1,46 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.org/schema/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+
+   <tr:panelBox text="Disc" background="medium">
+    	<tr:form id="disc">
+    		<s:validateAll>
+		    	<tr:panelFormLayout>
+		    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
+		    		<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2100" stepSize="1" readOnly="#{not identity.loggedIn}" columns="4"/>
+	    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
+	    				<s:selectItems value="#{allArtists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
+	    				<!--<s:convertEntity />-->
+                        <f:converter converterId="org.jboss.seam.ui.EntityConverter" />
+	    			</tr:selectOneChoice>
+	    			<tr:panelLabelAndMessage label="Details">
+			    		<tr:inputText simple="true" value="#{disc.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
+			    			 <f:ajax event="keyup" render="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
+			    		</tr:inputText>
+				    	<s:div style="width: 300px;" id="description_preview">
+						   	<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+				    		<tr:outputText value="None known" rendered="#{empty disc.description}" />
+						</s:div>
+					</tr:panelLabelAndMessage>
+	    		</tr:panelFormLayout>
+	    	</s:validateAll>
+	    	
+	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+		    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" id="update" />
+		    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" id="persist" />
+		    	<h:commandButton action="#{discHome.remove}" value="Delete" rendered="#{discHome.managed}" id="remove" />
+		    	<s:button action="cancel" value="Cancel" id="cancel"/>
+		    </tr:panelButtonBar>
+    	</tr:form>
+    </tr:panelBox>
+    
+</ui:define> 
+</ui:composition>

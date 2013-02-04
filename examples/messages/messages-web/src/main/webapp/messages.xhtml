@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s="http://jboss.org/schema/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+ <head>
+  <title>Messages</title>
+ </head>
+ <body>
+  <f:view>
+     <h2>Message List</h2>
+     <h:outputText id="noMessages" value="No messages to display" rendered="#{messageList.rowCount==0}"/>
+     <h:dataTable id="messages" var="msg" value="#{messageList}" rendered="#{messageList.rowCount>0}">
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Read"/>
+           </f:facet>
+           <h:selectBooleanCheckbox id="read" value="#{msg.read}" disabled="true"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Title"/>
+           </f:facet>
+           <s:link id="link" value="#{msg.title}" action="#{messageManager.select}"/>
+        </h:column>
+        <h:column>
+           <f:facet name="header">
+              <h:outputText value="Date/Time"/>
+           </f:facet>
+           <h:outputText id="date" value="#{msg.datetime}">
+              <f:convertDateTime type="both" dateStyle="medium" timeStyle="short"/>
+           </h:outputText>
+        </h:column>
+        <h:column>
+           <s:button id="delete" value="Delete" action="#{messageManager.delete}"/>
+        </h:column>
+     </h:dataTable>
+     <h3><h:outputText id="title" value="#{message.title}"/></h3>
+     <div><h:outputText id="text" value="#{message.text}"/></div>
+  </f:view>
+ </body>
+</html>

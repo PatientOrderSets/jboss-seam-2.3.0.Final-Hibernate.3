@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>jboss-seam-parent</artifactId>
+		<groupId>org.jboss.seam</groupId>
+		<version>2.3.0.Final</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jboss-seam-ioc</artifactId>
+	<name>Seam IoC</name>
+
+	<properties>
+		<main.basedir>${project.parent.basedir}</main.basedir>
+	</properties>		
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<type>ejb</type>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.transaction</groupId>
+			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.guice</groupId>
+			<artifactId>guice</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+			<optional>true</optional>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>jboss</groupId> -->
+<!-- 			<artifactId>jboss-jmx</artifactId> -->
+<!-- 		</dependency> -->
+
+	</dependencies>
+
+    <profiles>
+        <profile>
+            <id>code-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>emma-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-antrun-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+         <profile>
+            <id>distribution</id>
+            <build>
+            <plugins>
+                 <plugin>
+                     <artifactId>maven-dependency-plugin</artifactId>
+                     <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <excludeGroupIds>org.jboss.seam</excludeGroupIds>
+                                    <excludeClassifiers>sources, project, distribution</excludeClassifiers>
+                                    <outputDirectory>../jar-dependencies</outputDirectory>
+                                    <stripVersion>true</stripVersion>
+                                    <type>jar</type>
+                                    <transitive>true</transitive>
+                                </configuration>
+                            </execution>
+                     </executions>
+                </plugin>
+            </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>validate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <configuration>
+                           <catalogs>
+                                <catalog>../jboss-seam/src/main/resources/org/jboss/seam/catalog.xml</catalog>
+                            </catalogs>
+                            <validationSets>
+                                <validationSet>
+                                    <dir>src/main/resources/META-INF/</dir>
+                                    <includes>
+                                        <include>components.xml</include>
+                                    </includes>
+                                    <validating>false</validating>
+                                </validationSet>
+                                <validationSet>
+                                    <dir>src/main/resources/schema</dir>
+                                    <validating>false</validating>
+                                </validationSet>
+                            </validationSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>        
+    </profiles>
+    
+</project>
