@@ -31,7 +31,7 @@
 
 	<properties>
 		<!-- Version string properties -->
-        <version.seam>2.3.0.Final</version.seam>
+        <version.seam>2.3.0.Final.POS-Hibernate3</version.seam>
 		<version.wicket>1.4.14</version.wicket>
 		<version.drools>5.3.3.Final</version.drools>
 		<version.resteasy>2.0.1.GA</version.resteasy>
